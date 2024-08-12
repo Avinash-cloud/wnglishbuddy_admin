@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+.logocolor{
+  background-color:#002157;
+}
+ul li{
+  list-style:decimal
+}
+
+ol li{
+  list-style:disc
+}
+
+h1{
+  font-size: xx-large
+}
+h2{
+  font-size: x-large
+}
+
+/*---------------------------
+    Unit Test Blog Details  
+-----------------------------*/
+.wp-block-quote,
+blockquote,
+.wp-block-coblocks-click-to-tweet,
+.wp-block-pullquote blockquote,
+.wp-block-quote.is-style-large,
+.wp-block-quote.is-large,
+blockquote.has-text-align-right,
+.wp-block-quote.has-text-align-right {
+    padding: 40px 40px 40px 100px;
+    position: relative;
+    font-size: 24px;
+    line-height: 1.4;
+    background: transparent;
+    border-radius: 5px;
+    margin: 30px 0;
+    font-weight: 500;
+    color: #192335;
+    z-index: 1;
+    border: 1px solid #e6e3f1;
+   
+    &::before {
+        position: absolute;
+        content: "";
+        top: 40px;
+        left: 30px;
+        z-index: -1;
+        background-image: url('../public/quote.svg');
+        background-repeat: no-repeat, repeat;
+        width: 52px;
+        height: 44px;
+        transform: rotate(180deg);
+        filter: grayscale(1);
+       
+    }
+    p {
+        margin-bottom: 0;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1.4;
+        font-weight: 500;
+        color: var(--color-heading);
+    }
+    cite {
+        margin-top: 10px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* :root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+} */
+
+label{
+  @apply text-black font-semibold;
+}
+
+
+input, textarea, select{
+  @apply border border-gray-200 rounded-sm px-1 w-full py-2 px-3;
+  @apply mb-2;
+}
+input:focus, textarea:focus, select:focus{
+  @apply border-blue-900;
+}
+
+/* Total scrollbar */
+::-webkit-scrollbar {
+    width: 0px; /* Width of the scrollbar */
+    height: 12px; /* Height of the scrollbar (for horizontal scrollbar) */
+}
+
+/* Track (part the scrollbar moves within) */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Track color */
+    border-radius: 10px; /* Rounded corners for the track */
+}
+
+/* Handle (the draggable part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+    background: #dad8d8; /* Handle color */
+    border-radius: 10px; /* Rounded corners for the handle */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #fda0a0c0; /* Handle color on hover */
+}
