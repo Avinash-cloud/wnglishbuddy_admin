@@ -14,7 +14,7 @@ export default function Blog() {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [dateRange, setDateRange] = useState({
-        startDate: new Date(),
+        startDate: new Date('2024-01-01'),
         endDate: new Date(),
         key: 'selection'
     });
@@ -39,11 +39,19 @@ export default function Blog() {
         const filtered = blogs
             .filter(blog => blog.title.toLowerCase().includes(search.toLowerCase()))
             .filter(blog => {
-                const blogDate=new Date()// Assuming `date` is a field in your blog data
+                const blogDate = new Date(formatDate(blog.createdAt)); // Assuming `date` is a field in your blog data
                 return blogDate >= dateRange.startDate && blogDate <= dateRange.endDate;
             });
         setFilteredBlogs(filtered);
     }, [search, dateRange, blogs]);
+
+
+    const truncateTitle = (title) => {
+        if (title.length > 20) {
+          return title.substring(0, 20) + '...';
+        }
+        return title;
+      };
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
@@ -58,8 +66,23 @@ export default function Blog() {
         setCurrentPage(newPage);
     };
 
+    const handleShowAll = () => {
+        setDateRange({
+            startDate: new Date('2000-01-01'),
+            endDate: new Date(),
+            key: 'selection'
+        });
+        setSearch('');
+    };
+
     const pageCount = Math.ceil(filteredBlogs.length / rowsPerPage);
     const displayedBlogs = filteredBlogs.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+
+    function formatDate(dateString) {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', options);
+    }
 
     return (
         <Layout>
@@ -71,7 +94,7 @@ export default function Blog() {
                     </p>
                 </div>
                 <div className="flex gap-4">
-                    <Link className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black w-60" href={'/blogs/new'} >Add new Blog</Link>
+                    <Link className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black w-60" href={'/blogs/new'}>Add new Blog</Link>
                     <input
                         type="text"
                         value={search}
@@ -79,6 +102,12 @@ export default function Blog() {
                         placeholder="Search by title"
                         className="rounded-md border border-gray-300 px-3 py-2 text-sm"
                     />
+                    <button
+                        onClick={handleShowAll}
+                        className="rounded-md bg-blue-500 px-3 py-2 text-sm text-white hover:bg-blue-600"
+                    >
+                        Show All
+                    </button>
                 </div>
             </div>
 
@@ -151,7 +180,7 @@ export default function Blog() {
                                                     </td>
                                                     <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-500">
                                                         <div className="text-sm text-gray-900">
-                                                            <Link href={'/blogs/view/' + blog.title}>{blog.title}</Link>
+                                                            <Link href={'/blogs/view/' + blog.title}>{truncateTitle(blog.title)}</Link>
                                                         </div>
                                                     </td>
                                                     <td className="whitespace-nowrap px-4 py-4 text-right text-sm font-medium flex justify-evenly">
@@ -212,8 +241,9 @@ export default function Blog() {
                     <DateRangePicker
                         ranges={[dateRange]}
                         onChange={(item) => setDateRange(item.selection)}
-                        months={2}
-                        direction="horizontal"
+                        months={1}
+                        direction="horizontal" 
+                        className="rounded-md border border-gray-300 px-3 py-2 text-sm float float-end w-full gap-96"
                     />
                 </div>
             </section>

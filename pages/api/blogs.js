@@ -4,7 +4,7 @@ import Blog from "../../models/blogs";
 
 export default async function handler(req, res) {
     const { method } = req;
-  
+    const { page = 1, limit = 10, search = '' } = req.query;
     await mongooseConnect();
   
     switch (method) {
@@ -31,8 +31,9 @@ export default async function handler(req, res) {
         break;
       case 'PUT':
         try {
-          const {_title} = req.body;
-          const blogs = await Blog.updateOne({ _title },{ $set: req.body });
+          console.log(req.body)
+          const {title} = req.body;
+          const blogs = await Blog.updateOne({ title },{ $set: req.body });
           res.status(201).json({ success: true, data: blogs,message: "Data Updated successfully" });
         } catch (error) {
           console.log(error);

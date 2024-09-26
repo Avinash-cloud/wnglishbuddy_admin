@@ -12,39 +12,34 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 export default function EditBlog() {
     
 
-    const toolbarOptions = [
-        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-        ['blockquote', 'code-block'],
-        ['link', 'image', 'video', 'formula'],
-
-        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
-        [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-        [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-        [{ 'direction': 'rtl' }],                         // text direction
-
-        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-        [{ 'font': [] }],
-        [{ 'align': [] }],
-
-        ['clean']                                         // remove formatting button
-    ];
     const quillModules = {
-        toolbar: toolbarOptions
-       
+        toolbar: [
+            ['bold', 'italic', 'underline', 'strike'],              // toggled buttons
+            ['blockquote', 'code-block'],                            // block elements
+            ['link', 'image', 'video', 'formula'],                   // media
+            [{ 'header': 1 }, { 'header': 2 }],                      // custom button values
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }], // lists
+            [{ 'script': 'sub' }, { 'script': 'super' }],            // superscript/subscript
+            [{ 'indent': '-1' }, { 'indent': '+1' }],                // outdent/indent
+            [{ 'direction': 'rtl' }],                               // text direction
+            [{ 'size': ['small', false, 'large', 'huge'] }],        // custom dropdown sizes
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],              // custom header sizes
+            [{ 'color': [] }, { 'background': [] }],                 // color and background
+            [{ 'font': [] }],                                       // font family
+            [{ 'align': [] }],                                      // text alignment
+            ['clean']                                                // remove formatting button
+        ],
     };
 
     const quillFormats = [
-        'header', 'font', 'size',
-        'Background', 'Bold', 'Color', 'Font', 'Inline Code', 'Italic',
-        'list', 'bullet', 'indent',
-        'link', 'image',
-        'Strikethrough', 'Superscript/Subscript', 'Underline',
-        'Blockquote', 'Text Alignment', 'Text Direction', 'Code Block',
-        'Formula', 'Video'
+        'bold', 'italic', 'underline', 'strike',
+        'blockquote', 'code-block',
+        'link', 'image', 'video', 'formula',
+        'header', 'list', 'bullet', 'check',
+        'script', 'indent', 'direction',
+        'size', 'color', 'background',
+        'font', 'align',
+        'clean'
     ];
     
 
@@ -79,10 +74,12 @@ export default function EditBlog() {
             content
         };
 
+        console.log(blogData)
+
         if (title) {
             axios.put(`api/blogs/${title}`, blogData)
                 .then(() => {
-                    window.location.replace('/blogs')
+                    // window.location.replace('/blogs')
                 })
                 .catch(error => {
                     console.error('There was an error updating the blog!', error);

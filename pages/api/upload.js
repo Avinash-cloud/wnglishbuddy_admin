@@ -3,8 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { mongooseConnect } from "../../lib/mongoose";
 
-
 const publicDir = path.join(process.cwd(), 'public', 'uploads');
+const hostname = process.env.NEXT_PUBLIC_HOSTNAME || 'http://localhost:3000'; // Default to localhost if not set
 
 export default async function handle(req, res) {
   await mongooseConnect();
@@ -32,7 +32,7 @@ export default async function handle(req, res) {
 
     fs.renameSync(file.path, filePath);
 
-    const link = `/uploads/${newFilename}`;
+    const link = `${hostname}/uploads/${newFilename}`;
     links.push(link);
   }
 

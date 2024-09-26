@@ -13,10 +13,16 @@ export default function NewBlog() {
     const [isUploading, setIsUploading] = useState(false);
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("");
+    const URL=process.env.NEXT_PUBLIC_UPLOAD_API;
 
+
+
+    
     function updateImagesOrder(images) {
         setImages(images);
     }
+
+
     async function uploadImages(ev) {
         const files = ev.target?.files;
         if (files?.length > 0) {
@@ -25,13 +31,16 @@ export default function NewBlog() {
             for (const file of files) {
                 data.append("file", file);
             }
-            const res = await axios.post("/api/upload", data);
+            console.log("url are", URL);
+            const res = await axios.post(`${URL}:5000/api/upload`, data);
             setImages((oldImages) => {
-                return [...oldImages, ...res.data.links];
+                return [...oldImages, res.data.fileUrl];
             });
             setIsUploading(false);
         }
     }
+
+
     console.log("img url is", images)
 
     function formDataToObject(formData) {
@@ -134,6 +143,7 @@ export default function NewBlog() {
                                         className="h-24 bg-white p-4 shadow-sm rounded-sm border border-gray-200"
                                     >
                                         <img src={link} alt="" className="rounded-lg" height={100} width={100} />
+
                                     </div>
                                 ))}
                         </ReactSortable>
@@ -161,6 +171,7 @@ export default function NewBlog() {
                             <input type="file" onChange={uploadImages} className="hidden" />
                         </label>
                     </div>
+
                     <div className="mt-4">
 
                         <label> Title</label>
@@ -183,7 +194,7 @@ export default function NewBlog() {
                         />
                     </div>
 
-                    <button type="submit">Save</button>
+                    <button className='bg-blue-600 text-white h-9 w-14 rounded mt-6' type="submit">Save</button>
 
                 </form>
 
