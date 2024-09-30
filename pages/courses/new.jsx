@@ -3,7 +3,7 @@
  * courses with image upload functionality.
  */
 import Layout from "../../components/Layout";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Spinner from "../../components/Spinner";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
@@ -13,9 +13,14 @@ export default function Courses() {
     const [images, setImages] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
 
+
+   
+
     const handleNext = () => {
         setStep(step + 1);
     };
+
+  
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,6 +29,8 @@ export default function Courses() {
         // Move to next step
         handleNext();
     };
+
+   
 
     async function uploadImages(ev) {
         const files = ev.target?.files;
@@ -44,13 +51,20 @@ export default function Courses() {
     function updateImagesOrder(images) {
         setImages(images);
     }
+
+    useEffect(() => {
+
+    }, [])
+
+
+
     return (
         <Layout>
             <div className="container mx-auto mt-8">
                 <div className="tabs">
-                    <div className={`tab ${step === 1 ? 'active' : ''}`}>Course cover</div>
-                    <div className={`tab ${step === 2 ? 'active' : ''}`}>Form 2</div>
-                    <div className={`tab ${step === 3 ? 'active' : ''}`}>Form 3</div>
+                    <div onClick={() => { setStep(1) }} className={`tab ${step === 1 ? 'active' : ''}`}>Course cover</div>
+                    <div onClick={() => { setStep(2) }} className={`tab ${step === 2 ? 'active' : ''}`}>Form 2</div>
+                    <div onClick={() => { setStep(3) }} className={`tab ${step === 3 ? 'active' : ''}`}>Form 3</div>
                 </div>
 
                 <div className="form-content mt-4">
@@ -63,6 +77,8 @@ export default function Courses() {
                                     type="text"
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     required
+                                    name="courseName"
+                                   
                                 />
 
                             </div>
@@ -72,6 +88,8 @@ export default function Courses() {
                                     type="text"
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     required
+                                    name="teacher"
+                                   
                                 />
 
                             </div>
@@ -115,7 +133,7 @@ export default function Courses() {
                                             />
                                         </svg>
                                         <div>Add image</div>
-                                        <input type="file" onChange={uploadImages} className="hidden" />
+                                        <input type="file" accept="image/*" onChange={uploadImages} className="hidden" />
                                     </label>
                                 </div>
 
@@ -126,6 +144,20 @@ export default function Courses() {
                                     type="text"
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     required
+                                    name="courseCategory"
+                                   
+                                />
+
+                            </div>
+
+                            <div className="mb-4 w-2/4">
+                                <label className="block text-sm font-medium text-gray-700">Course Price</label>
+                                <input
+                                    type="text"
+                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    required
+                                    name="coursePrice"
+                                    
                                 />
 
                             </div>
@@ -168,6 +200,8 @@ export default function Courses() {
                                     type="text"
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     required
+                                    // value={basicDetails.courseName}
+                                    // onChange={handleInputChange}
                                 />
                             </div>
                             <button
