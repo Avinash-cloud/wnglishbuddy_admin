@@ -179,3 +179,8 @@ input:focus, textarea:focus, select:focus{
   color: #1f2937; /* Gray-900 */
   border-bottom: 2px solid #3b82f6; /* Blue-500 */
 }
+
+.book_from input{
+  @apply border-gray-500 rounded-md
+
+}

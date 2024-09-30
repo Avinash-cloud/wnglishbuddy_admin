@@ -50,7 +50,7 @@ export default function ViewBlog() {
                         <p className="text-sm text-gray-500">{formatDate(blogInfo?.createdAt)}</p>
                         <p className="text-sm text-gray-500 flex justify-stretch">Published by <User /> {blogInfo?.author}</p>
 
-                        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+                        <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
 
                         <div className='text-lg' style={{ all: 'initial' }}
                             dangerouslySetInnerHTML={{ __html: blogInfo?.content }} />
