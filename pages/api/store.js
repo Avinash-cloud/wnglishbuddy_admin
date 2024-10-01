@@ -13,7 +13,7 @@ export default async function handler(req, res) {
           res.status(200).json({ success: true, data: stores });
         }
         try {
-          const stores = await Store.find({});
+          const stores = await Store.find({}).sort({ _id: -1 });
           res.status(200).json({ success: true, data: stores });
         } catch (error) {
           res.status(400).json({ success: false });

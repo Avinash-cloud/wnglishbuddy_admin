@@ -67,7 +67,7 @@ export default function Nav({ show }) {
                     Class Recordings
                 </Link>
 
-                <Link href={'/store'} className={` ${pathname === '/store','/store/new' ? activeLink : inactiveLink}`}>
+                <Link href={'/store'} className={` ${pathname === '/store' ? activeLink : inactiveLink}`}>
 
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAADoklEQVR4nO2bSWsUQRiGH+NBs7ggouAhN3PRo6DRSYwHQXPwKsQkeIsmmrjHCGof44YQcAONJnH5ES6n4FHjkrig4EHQg0dB1OhISQ98tF3V1T2T7h6pD4oM3U91d72peuvrqhkwx1pgELgKXMtJOQWsIV6sArqBY0A7MN+m0mlgFijmsKjnOmHZ+B7ga6D+FNBoqrQzB420KTsiGr8d+KWp+9TUEx4L8AlwBhjOQTkLTItnexQhwMNAOy4B38Sx9rBKDUI19Xc5+Yp1ogGfDFwt8DOkHSOi/vGwigUBvDHcYB7QBXT4n9PiNovnU71BFxs07fDEcS+s4oAA7hpusEtwu1PkDlk+X5/g7sQRYFwAhw03uJ4Rd9uSGxWcEs1agBkBqO6miynBbUmRe235fM8F12orQIOY+38DSzQXXwj8ENzSlLigQS/WcHUBA1xkK0BBnFRK62K94N6myLUK7pWBaxac6tHYCjCgMY5g9AruXorcQcEpL9DFPsFNxBFgXGMcwbghuCMpchOCU2Lo4qbgDsQRYNrSYJ4Jri1FbkZjbCYDVMPaSoC6KjDAWY2x2RqgUYBNlgaoy7DmmisYjE1ngGGZolaA/ZYG2JcgE6sEN2AwNp0BjsUR4JalAY4myMQqwY0ZjE1ngP1xBHiRIMNKk3spuBbL66lhbSVAnTAOkwHWZsRFGVsYpwyz3laAZksDzIrbGGFsYddTPRpbAfoyMrYk3IQlF2aAWgHOi4NDlqlof0bcHgP3QHB74whwThw8abiBGlMXgIv+eEubU+uCCzRMi+8jJZ9ojCNAhzj4AVhBdcVW4IvlC1WoAPX+AmPpxGfgir8pkucyEljBLvrtWBlXABXbgO+Bi1Vb+Wixa2R8G2zzFySKVVbUWv9lYFlE4yMFUFHjG0pPDrp4VOn1e64uMUokwP8eTgBcD8ANAZwHYDTBGn+jMq4rHwWaNNds8s+nOUt0+W2JbYLdZczJ7zTXfJ9RjtCVRACvzJuGRVZJkleuAJOW396II8Bcf5NkspICeDrI0MAk5ysZpud3AuB6AG4I4DwAZ4JuFsBNg16SeVQXLg/AJUK4TBCXCuPeBUhmkpUM9zJEzt8Gi9W0IOJVSICs9h2H8iLAcAYiqPXJ1XkRIC/hBMD1ANwQQAzvmpBdoPtlesBgjss/beuOOY/aCFAtxcP/75ugTksBstr6Kqd0loaA+hC2w6KOBzcXdaHmW/Udw6x/X2xb/rbtD/RikdHsJs5JAAAAAElFTkSuQmCC" size={200} strokeWidth={1.75} className={` ${pathname === '/store' ? activeIcon : inactiveIcon}`}></img>
                     Store
@@ -78,6 +78,13 @@ export default function Nav({ show }) {
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB5ElEQVR4nO2bP0sDQRDFf10qFSJqawT9AlooWkQ/hRo7EQsrC5UUdikE/2CpYiVirUY7NZ1/WrUR/SYRTxY2sBwYMWTuxss8GA5S5L19mdmdze2CwWAwGFrCALAArAMbKYXjLnktiaEHOAY+gUhJ1IEjoFt68L3Aq4IB/xQvQF7SgOsY4T2wD2ylFI77IabpUmrwUwHJF7CIHix5TQ19ExIkewHBCfpwGujbkSC4Cghm0Yd56TKoBQRF9KEY6HNa246aGYBlQGQlQNM5YEa49Z3WPAcUEmiP656now0Y1GoA/vOKUNtb+WX5VWFAmjADsAzASoAU54AccBfblrYz3Pfeeh6Vc8CY8BLYiFGtBuT8LySZATeaMyBtmAFYBmAlwD/aDq8BI1kqgUILu8GPNuozA/hn2+FNYDhrBqQJMwDLAKwEsDkAmwSxVQBbBhFAzfoArBGKrBMk0VbYvQdcafI+MPOd4Lvnc8+ONuCtUw0YAlb9syMN+AvMAIQzoBoQzKEPpUDfhQTBbkDgjqVqw1mgb1uCYDL2ns4dUNaC5di/zeNSRNUY0aM/mJzWjRGXlU8xTecIIu8vJURK41n6wgT+WsqhP7IWKQmn5QDoIkH0+yPq5RRvjJS9hr4kB24wGAxkBd9DBMQyRd8JVwAAAABJRU5ErkJggg==" size={20} strokeWidth={1.75} className={` ${pathname === '/orders' ? activeIcon : inactiveIcon}`}></img>
                     Orders
                 </Link>
+
+
+                <span className="flex gap-2 p-2 rounded hover:bg-red-100 cursor-pointer" onClick={logout}>
+
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAg0lEQVR4nO2Wyw2AIBAFR0ugM2IlFmKsy5L0ssYErx5cwkNkEo7AJPuFTqVYpvN9gbd0AashBIdSYAeiUiB6Ps8SQyAAs0pgBLb0xqoQuJhSIt4SA4UFXBL2IOBpzUsTAp4QSJPwf2UYlI0oOu62MYxMPY6thoXEmhAw9VpuKoEOpTgBWrm2y79fsd4AAAAASUVORK5CYII=" size={20} strokeWidth={1.75} className={` ${pathname === '/logout' ? activeIcon : inactiveIcon}`}></img>
+                    Logout
+                </span>
 
                 
             </nav>
