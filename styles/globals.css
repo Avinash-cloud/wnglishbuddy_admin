@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
+@import url('https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&display=swap');
 
 
 .logocolor{
@@ -189,9 +189,9 @@ input:focus, textarea:focus, select:focus{
 .baskervville-regular {
   font-family: "Baskervville", serif;
   font-weight: 900;
-  font-style:normal;
+  font-style: normal;
+  font-size: 26px;
 
-  font-size: 25px;
 }
 
 .baskervville-regular-italic {

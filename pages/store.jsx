@@ -79,6 +79,7 @@ export default function Store({ initialProducts }) {
                 <meta property="og:image" content="URL to your store image" />
                 <meta property="og:url" content={process.env.NEXT_PUBLIC_HOSTNAME} />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                
             </Head>
             <div className="flex flex-col justify-center border-e-red-50">
                 <h1 className="font-serif items-center justify-center"> Store</h1>
@@ -118,7 +119,7 @@ export default function Store({ initialProducts }) {
                             <Link key={index} href={`/store/edit/${product.title}`} className="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden border hover:shadow-2xl cursor-pointer">
                                 <div className="p-4 rounded-lg">
                                     <img className="w-full h-48 object-cover rounded-lg" src={product.images[0]} alt={product.title} />
-                                    <h3 className="text-gray-900 font-bold text-xl mb-2 mt-4">{product.title}</h3>
+                                    <h3 className="text-gray-900 font-bold text-xl mb-2 mt-9 baskervville-regular">{product.title}</h3>
                                     <p className="text-gray-700 text-base mb-4" dangerouslySetInnerHTML={{ __html: truncateHTML(product?.description, 40) }} />
                                     <div className="flex items-center justify-between">
                                         <span className="text-gray-900 font-bold text-lg">₹{product.discount}</span>
