@@ -30,13 +30,13 @@ export default async function handler(req, res) {
         const Coursess = await Courses.create(req.body);
         res.status(201).json({ success: true, data: Coursess });
       } catch (error) {
-        console.log(error);
+        //console.log(error);
         res.status(400).json({ success: false,message:"unable to Crete new course" });
       }
       break;
     case "PUT":
       try {
-        console.log(req.body);
+        //console.log(req.body);
         const { title } = req.body;
         const Coursess = await Courses.updateOne({ title }, { $set: req.body });
         res
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
             message: "Data Updated successfully",
           });
       } catch (error) {
-        console.log(error);
+        //console.log(error);
         res
           .status(400)
           .json({ success: false, message: "Something went wrong" });

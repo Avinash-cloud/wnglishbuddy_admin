@@ -29,7 +29,7 @@ export default function Orders() {
 
     const downloadExcel = () => {
         // Logic to download data in Excel format
-        console.log("Download Excel");
+        // //console.log("Download Excel");
     };
 
     const clearFilters = () => {

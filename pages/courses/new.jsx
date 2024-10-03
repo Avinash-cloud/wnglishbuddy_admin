@@ -40,7 +40,7 @@ export default function Courses() {
             for (const file of files) {
                 data.append("file", file);
             }
-            console.log("url are", URL);
+            //console.log("url are", URL);
             const res = await axios.post(`${URL}:5000/api/upload`, data);
             setImages((oldImages) => {
                 return [...oldImages, res.data.fileUrl];

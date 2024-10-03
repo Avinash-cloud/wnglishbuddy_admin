@@ -21,15 +21,15 @@ export default function loin() {
         if (Object.keys(errors).length === 0) {
             // Simulate backend authentication (replace with actual backend call)
             // For demonstration purposes, assume login is successful
-            //console.log('Username:', username);
-            console.log('Password:', password);
+            ////console.log('Username:', username);
+            // //console.log('Password:', password);
 
             const res = await signIn("credentials", {
                 email: username,
                 password: password,
                 redirect: false,
             });
-            console.log(res);
+            //console.log(res);
 
 
             if (res?.error) {

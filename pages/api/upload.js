@@ -18,7 +18,7 @@ export default async function handle(req, res) {
     });
   });
 
-  console.log('length:', files.file.length);
+  //console.log('length:', files.file.length);
 
   if (!fs.existsSync(publicDir)) {
     fs.mkdirSync(publicDir, { recursive: true });

@@ -23,7 +23,7 @@ export default function Layout({ children }) {
         <>
 
             <div className="logocolor container-auto p-4 ">
-                <img src="\white-logo (1).png" width={200} height={200} />
+                <img src="\white-logo (1).png" width={200} height={200} alt="logo" />
             </div>
             <div className="bg-bgGray min-h-screen ">
 

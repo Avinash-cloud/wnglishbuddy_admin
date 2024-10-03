@@ -74,7 +74,7 @@ export default function EditBlog() {
             content
         };
 
-        console.log(blogData)
+        //console.log(blogData)
 
         if (title) {
             axios.put(`api/blogs/${title}`, blogData)

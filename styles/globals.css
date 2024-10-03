@@ -184,3 +184,18 @@ input:focus, textarea:focus, select:focus{
   @apply border-gray-500 rounded-md
 
 }
+
+
+.baskervville-regular {
+  font-family: "Baskervville", serif;
+  font-weight: 900;
+  font-style:normal;
+
+  font-size: 25px;
+}
+
+.baskervville-regular-italic {
+  font-family: "Baskervville", serif;
+  font-weight: 400;
+  font-style: italic;
+}

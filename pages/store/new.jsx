@@ -142,7 +142,7 @@ export default function Page() {
 
         try {
             const response = await axios.post('/api/store', data);
-            console.log('Data submitted successfully:', response.data);
+            //console.log('Data submitted successfully:', response.data);
             showToast('success', 'Book Listed successfully', { autoClose: 3000 });
             resetForm();
             // Optionally, reset the form or handle the response as needed
@@ -193,7 +193,7 @@ export default function Page() {
             for (const file of files) {
                 data.append("file", file);
             }
-            console.log("url are", URL);
+            //console.log("url are", URL);
             const res = await axios.post(`${URL}:5000/api/upload`, data);
             setImages((oldImages) => {
                 return [...oldImages, res.data.fileUrl];

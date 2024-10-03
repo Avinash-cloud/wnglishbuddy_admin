@@ -31,7 +31,7 @@ export default function NewBlog() {
             for (const file of files) {
                 data.append("file", file);
             }
-            console.log("url are", URL);
+            //console.log("url are", URL);
             const res = await axios.post(`${URL}:5000/api/upload`, data);
             setImages((oldImages) => {
                 return [...oldImages, res.data.fileUrl];
@@ -41,7 +41,7 @@ export default function NewBlog() {
     }
 
 
-    console.log("img url is", images)
+    //console.log("img url is", images)
 
     function formDataToObject(formData) {
         const obj = {};
@@ -78,11 +78,11 @@ export default function NewBlog() {
 
         // Convert FormData to object and log it for debugging
         const formDataObject = formDataToObject(formData);
-        console.log("FormData as Object:", formDataObject);
+        //console.log("FormData as Object:", formDataObject);
 
         try {
             const response = await axios.post("/api/blogs", formDataObject);
-            console.log("Response:", response.data);
+            //console.log("Response:", response.data);
             window.location.replace("/blogs")// Update the list of blogs
         } catch (error) {
             console.error("Error submitting form:", error);
