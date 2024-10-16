@@ -17,11 +17,11 @@ export default function Nav({ show }) {
         await signOut();
     }
     return (
-        <aside className={(show ? 'left-0' : '-left-full') + " top-0 text-black p-4 fixed w-full bg-white h-full md:static md:w-auto transition-all  "}>
+        <aside className={(show ? 'left-0' : '-left-full') + " top-0 text-black p-4 fixed w-full bg-white h-full md:static md:w-auto transition-all overflow-y-auto overflow-x-hidden "}>
             <div className="mb-4 mr-4  top-14 ">
                 <Logo />
             </div>
-            <nav className="flex flex-col gap-2 bg-white w-[11rem] ">
+            <nav className="flex flex-col gap-2 bg-white w-[11rem] overflow-auto">
                 <Link href={'/courses'} className={` ${pathname === '/courses' ? activeLink : inactiveLink}`}>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADUUlEQVR4nO2ZWWgUQRCGv2iixgOJF5qg4AlKVDxBCBiPBy+QIAhiwANEffBCxAsR442ggk8aFd/UeICoIIISjQoSb8QoEvOgCRo0kBg0xmOloALFurM7O8xkSZwfGnanq2uqurv+qu6BEO0Dt4FIEq0eKAEGA0P0d32SOsqCcCTisX3S5nW870hWcQ5wzYy7qs+Cel+gigeacTmt8L5AFbf2uIQIHSFcEcKtFQ9hjBDGCGGMxEMYI4QxQhgj/1WMRBK0JqAC2AcMMM/l937ta0rlwarMw+nOGpyM8RFtd0khugC5wB7gqzGqAditfSLTpjAceAo8AYal2pgQIdoZegPHgC9As7LmFC+KRgGb9YbxLdCoN4UvgSvACqCv//aTBiwFah3ofLIbJZnAMqDcJc//Ai4D03xyYiRQavTfAcYCXYHj+kwm0RFyN3sI+GyUyO+TwHztFye768sK1YHvRv6FrpLIJYtMzTs/VFetroqsTgv6mL5/kA9cB34bgx4CS1wmLdla24D3Zrzs6QPAIJdOzAIqdazYcQLoFUMuT2UqY81Cs3Z+A04BE/CGDGAhcC9q210EpjqMyQbOG/lncYJ5jrkIL4olsB5YB2ThH8YDZ6JqKzGyQPs7AmvMJ4YGYAOQHkNXD6DY6Lml8dKq6AdsB6qNIfeBR+b/hTiX27KSVYattugkpAwZSgI1xoF3wGwH+UzgsIlbqdXGBGmgMMpzNeogMC6BfDfgnBon301iYRLwSmV+KpN1ImB0UIazeeU1sEvjxFJnC7JUTsr76FUrUuMjevhylfj8QpoyzRHgQ5RT1Uqli7Sc7wwsjkGhucBjQ79HPeYiX1coT51qyQtOba3KbzLsVqV5zTfM0HJAtkmdJrhSTXwys24xGtgK3AQ+ataWwF0NDI06Ohcr1foCMfJGgpn8o4YVOPC+m624yhyBhcnm4iMKNTFFdBV2ABM1OKUMmaez1mickpjYqRnaDXKiJuqsQyniCUKJp43yEj0HOKGn7u8KM0aY5hIw04Gp0CCvM8WolDO+otzUWiuTGCcGT9fM3FKvSXsDbARG6ITkx/jW3p8A8EDLbwlMr8jWLRZNv7ZJXbWcNoJ0YIFuzxrdSlIs7g3oJBkiBAHhLwryx2DrCE/uAAAAAElFTkSuQmCC"  alt="icon"  size={20} strokeWidth={1.75} className={pathname === '/' ? activeIcon : inactiveIcon}></img>
                     Courses
@@ -77,6 +77,14 @@ export default function Nav({ show }) {
 
                 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB5ElEQVR4nO2bP0sDQRDFf10qFSJqawT9AlooWkQ/hRo7EQsrC5UUdikE/2CpYiVirUY7NZ1/WrUR/SYRTxY2sBwYMWTuxss8GA5S5L19mdmdze2CwWAwGFrCALAArAMbKYXjLnktiaEHOAY+gUhJ1IEjoFt68L3Aq4IB/xQvQF7SgOsY4T2wD2ylFI77IabpUmrwUwHJF7CIHix5TQ19ExIkewHBCfpwGujbkSC4Cghm0Yd56TKoBQRF9KEY6HNa246aGYBlQGQlQNM5YEa49Z3WPAcUEmiP656now0Y1GoA/vOKUNtb+WX5VWFAmjADsAzASoAU54AccBfblrYz3Pfeeh6Vc8CY8BLYiFGtBuT8LySZATeaMyBtmAFYBmAlwD/aDq8BI1kqgUILu8GPNuozA/hn2+FNYDhrBqQJMwDLAKwEsDkAmwSxVQBbBhFAzfoArBGKrBMk0VbYvQdcafI+MPOd4Lvnc8+ONuCtUw0YAlb9syMN+AvMAIQzoBoQzKEPpUDfhQTBbkDgjqVqw1mgb1uCYDL2ns4dUNaC5di/zeNSRNUY0aM/mJzWjRGXlU8xTecIIu8vJURK41n6wgT+WsqhP7IWKQmn5QDoIkH0+yPq5RRvjJS9hr4kB24wGAxkBd9DBMQyRd8JVwAAAABJRU5ErkJggg==" alt="icon"  size={20} strokeWidth={1.75} className={` ${pathname === '/orders' ? activeIcon : inactiveIcon}`}></img>
                     Orders
+                </Link>
+
+
+
+                <Link href={'/banner'} className={` ${pathname === '/banner' ? activeLink : inactiveLink}`}>
+
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAs0lEQVR4nO2TQQqDMBBF/xHETV31Al6p63brxVyX6kZaeqNuBCVl4BekKEo0Y4R5EEJmhuSFTADDMCLCKY94BUJzbIGCNYXvIWsFXqx57iFwAtCxpgeQaQvc/rr4qi1wZ/7NWdY/zgAqAO3cV/MVSLi5PEHOuWVcqJf+dV+BC3MN1w3XEsfg5umCvbwEyokblloCnwkBiYPvH/QJ3EhuGJMmfIRswi2JX8ApjfgEDMPAHnwBOJP1ixkgFXYAAAAASUVORK5CYII=" alt="icon"  size={20} strokeWidth={1.75} className={` ${pathname === '/banner' ? activeIcon : inactiveIcon}`}></img>
+                Banner
                 </Link>
 
 

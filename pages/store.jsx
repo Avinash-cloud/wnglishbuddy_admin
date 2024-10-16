@@ -83,7 +83,7 @@ export default function Store({ initialProducts }) {
             </Head>
             <div className="flex flex-col justify-center border-e-red-50">
                 <h1 className="font-serif items-center justify-center"> Store</h1>
-                <h2>All Available book&apos;s</h2>
+                <h2>All Available book &apos;s</h2>
                 <div>
                     <Link href="/store/new">
                         <button className="float-right bg-black text-white p-3 rounded-md font-serif text-lg w-1/7">

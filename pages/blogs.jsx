@@ -237,7 +237,7 @@ export default function Blog() {
                     </div>
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 overflow-auto">
                     <DateRangePicker
                         ranges={[dateRange]}
                         onChange={(item) => setDateRange(item.selection)}

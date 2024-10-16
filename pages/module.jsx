@@ -113,14 +113,14 @@ export default function modules() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
               <a href="/modules/new">
-              <button
-                type="button"
-                className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black w-[10rem]"
-              >
-                
-                Add new module
-                
-              </button>
+                <button
+                  type="button"
+                  className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black w-[10rem]"
+                >
+
+                  Add new module
+
+                </button>
               </a>
             </div>
           </div>
@@ -157,7 +157,7 @@ export default function modules() {
                           </td>
                         </tr>
                       ) : (
-                        module.map((module,index) => (
+                        module.map((module, index) => (
                           <tr key={index}>
                             <td className="whitespace-nowrap px-4 py-4">
                               <div className="flex items-center">
@@ -170,7 +170,7 @@ export default function modules() {
                                 </div>
                                 <div className="ml-4">
                                   <div className="text-sm font-medium text-gray-900">{module.name}</div>
-                                  
+
                                 </div>
                               </div>
                             </td>
@@ -227,8 +227,8 @@ export default function modules() {
             )}
             <button
               className={`mx-1 text-sm font-semibold text-gray-900 ${currentPage === Math.ceil(totalItems / rowsPerPage)
-                  ? 'cursor-not-allowed'
-                  : ''
+                ? 'cursor-not-allowed'
+                : ''
                 }`}
               onClick={handleNextPage}
               disabled={currentPage === Math.ceil(totalItems / rowsPerPage)}
