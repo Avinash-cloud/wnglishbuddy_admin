@@ -3,6 +3,7 @@ import Nav from "../components/Nav";
 import { useState } from "react";
 import Logo from "../components/Logo";
 import Image from "next/image";
+import Head from "next/head";
 
 
 export default function Layout({ children }) {
@@ -21,6 +22,11 @@ export default function Layout({ children }) {
 
     return (
         <>
+        <Head>
+            <title>English Buddy Admin</title>
+            <meta name="description" content="English Buddy Admin Panel" />
+            <link rel="icon" href="/favicon.ico" />
+        </Head>
 
             <div className="logocolor container-auto p-4 ">
                 <img src="\white-logo (1).png" width={200} height={200} alt="logo" />

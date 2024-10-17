@@ -1,9 +1,16 @@
 import Layout from "../components/Layout";
 import { Line, Bar } from 'react-chartjs-2';
+import { getServerIP } from "../lib/getServerIP";
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend } from 'chart.js';
-
+import Head from 'next/head';
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend);
-export default function Home() {
+
+
+
+
+
+
+export default function Home({ serverIP }) {
   const revenueData = {
     labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
     datasets: [
@@ -39,9 +46,14 @@ export default function Home() {
       },
     ],
   };
+
+
   return (
     <Layout>
+
+      
       <div className="p-8 bg-gray-100 min-h-screen">
+        {/* <h1>Server IP: {serverIP}</h1> */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Cards */}
           {[
@@ -83,19 +95,22 @@ export default function Home() {
 }
 
 export async function getServerSideProps(context) {
+  const serverIP = getServerIP();
   const { req, res } = context;
   const token = req.cookies['next-auth.session-token'] || req.cookies['__Secure-next-auth.session-token']; // Also check for the secure cookie in production
 
   if (!token) {
     return {
+
       redirect: {
         destination: '/login',
         permanent: false, // Temporary redirect
       },
+
     };
   }
 
   return {
-    props: {}, // Pass props to your page component if needed
+    props: { serverIP, }, // Pass props to your page component if needed
   };
 }

@@ -17,6 +17,7 @@ export default async function handler(req, res) {
             // If title query exists, find a specific store
             if (req.query?.title) {
                 stores = await Store.findOne({ title: req.query.title });
+                res.status(200).json({ success: true, data: stores });
             } else {
                 stores = await Store.find({}).sort({ _id: -1 });
             }

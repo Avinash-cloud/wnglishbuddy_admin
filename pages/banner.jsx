@@ -36,9 +36,11 @@ export default function banner() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Function to toggle modal visibility
-    const toggleModal = () => {
+    const [selectedId, setSelectedId] = useState(null); 
+    const toggleModal = (id) => {
+        setSelectedId(id); // Store the selected item's _id
         setIsModalOpen(!isModalOpen);
-    };
+      };
 
 
     useEffect(() => {
@@ -110,6 +112,7 @@ export default function banner() {
         const res = await axios.post('/api/banner', data);
         setImages([]);
         setIsOpen(false);
+        window.location.reload()
     }
 
 
@@ -164,17 +167,16 @@ export default function banner() {
 
     const handleDelete = async () => {
         try {
-          // Make a delete request to your API
-          await axios.delete(`/api/delete-item/${_id}`);
-          console.log(`Item with id ${_id} deleted successfully.`);
+          // Make a delete request to your API with the selectedId
+          await axios.delete(`/api/banner?id=${selectedId}`);
+          console.log(`Banner with id ${selectedId} deleted successfully.`);
           setIsModalOpen(false);
+          window.location.reload()
           // Optionally refresh the data or redirect user
         } catch (error) {
-          console.error('Error deleting item:', error);
+          console.error('Error deleting banner:', error);
         }
       };
-
-
 
 
     return (
@@ -193,7 +195,7 @@ export default function banner() {
 
                 </div>
 
-                <div>Upload Banner Image</div>
+                <div>Upload Banner Image <span className="font-semibold">(1920 X 400)</span></div>
                 <div className="mb-2 flex flex-wrap gap-1">
                     <ReactSortable
                         list={images}
@@ -298,7 +300,7 @@ export default function banner() {
                                                             <button
                                                                 className="text-red-600 hover:text-red-900 transition duration-150 ease-in-out focus:outline-none focus:ring focus:ring-red-300 rounded-md"
                                                                 title="Delete"
-                                                                onClick={toggleModal}
+                                                                onClick={() => toggleModal(module._id)} 
                                                             >
                                                                 <Trash2Icon className="w-5 h-5" />
                                                             </button>
