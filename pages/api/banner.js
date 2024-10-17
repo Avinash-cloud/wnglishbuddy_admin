@@ -1,6 +1,8 @@
 import {mongooseConnect} from "../../lib/mongoose";
 import Banner from "../../models/banner";
 
+import CryptoJS from 'crypto-js';
+const SECRET_KEY = process.env.NEXTAUTH_SECRET ; 
 
 export default async function handler(req, res) {
     const { method } = req;
@@ -15,7 +17,9 @@ export default async function handler(req, res) {
         }
         try {
           const banners = await Banner.find({});
-          res.status(200).json({ success: true, data: banners });
+          const encryptedData = CryptoJS.AES.encrypt(JSON.stringify({ success: true, data: banners }), SECRET_KEY).toString();
+
+          res.status(200).json({ success: true, data: encryptedData });
         } catch (error) {
           res.status(400).json({ success: false });
         }

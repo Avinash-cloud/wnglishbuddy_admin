@@ -8,7 +8,7 @@ import { ReactSortable } from "react-sortablejs";
 import Spinner from "../components/Spinner";
 import { IoMdClose } from "react-icons/io";
 import Image from "next/image";
-
+import { getServerIP } from "../lib/getServerIP";
 
 const customStyles = {
     content: {
@@ -24,10 +24,10 @@ const customStyles = {
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 // Modal.setAppElement('#yourAppElement');
 
-export default function banner() {
+export default function banner({ initialProducts,serverIP }) {
     const URL = process.env.NEXT_PUBLIC_UPLOAD_API;
-    const [loading, setLoading] = useState(true);
-    const [banner, setBanner] = useState([])
+    const [loading, setLoading] = useState(false);
+    const [banner, setBanner] = useState(initialProducts)
     const [images, setImages] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
 
@@ -43,27 +43,27 @@ export default function banner() {
       };
 
 
-    useEffect(() => {
-        const fetchmodules = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get('/api/banner');
-                console.log(response);
+    // useEffect(() => {
+    //     const fetchmodules = async () => {
+    //         setLoading(true);
+    //         try {
+    //             const response = await axios.get('/api/banner');
+    //             console.log(response);
 
-                setBanner(response.data.data)
-                // Assuming the API sends total items
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false);
-            }
-        };
+    //             setBanner(response.data.data)
+    //             // Assuming the API sends total items
+    //             setLoading(false);
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //             setLoading(false);
+    //         }
+    //     };
 
-        fetchmodules();
-    }, []);
+    //     fetchmodules();
+    // }, []);
 
 
-    console.log(banner)
+    // console.log(banner)
 
 
 
@@ -345,5 +345,38 @@ export default function banner() {
     )
 }
 
+
+
+// Server-side function to fetch products
+import CryptoJS from 'crypto-js';
+
+const SECRET_KEY = process.env.NEXTAUTH_SECRET;
+export async function getServerSideProps() {
+    const serverIP = getServerIP();
+    const url = process.env.NEXT_PUBLIC_HOSTNAME;
+    const response = await fetch(`${url}/api/banner`); // Replace with your API endpoint
+    const result = await response.json();
+
+    let initialProducts = [];
+
+
+    // console.log("hellow",serverIP)
+    
+
+    if (result.success) {
+        // Decrypt the encrypted data
+        const decryptedData = CryptoJS.AES.decrypt(result.data, SECRET_KEY);
+        const stores = JSON.parse(decryptedData.toString(CryptoJS.enc.Utf8));
+
+        initialProducts = stores.data; // Extract the actual data from the decrypted object
+    }
+
+    return {
+        props: {
+            initialProducts,
+            serverIP
+        },
+    };
+}
 
 
