@@ -127,6 +127,28 @@ const bookSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
+    reviews: [
+        {
+          author_name: {
+            type: String,
+            
+          },
+          rating: {
+            type: Number,
+           
+            min: 0,
+            max: 5
+          },
+          comment: {
+            type: String,
+            
+          },
+          date: {
+            type: Date,
+            default: Date.now
+          }
+        }
+      ],
     metaKeywords: {
         type: [String], // Array of meta keywords
         default: []
