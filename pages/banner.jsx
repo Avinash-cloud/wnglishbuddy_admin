@@ -24,7 +24,7 @@ const customStyles = {
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 // Modal.setAppElement('#yourAppElement');
 
-export default function banner({ initialProducts,serverIP }) {
+export default function banner({ initialProducts, serverIP }) {
     const URL = process.env.NEXT_PUBLIC_UPLOAD_API;
     const [loading, setLoading] = useState(false);
     const [banner, setBanner] = useState(initialProducts)
@@ -36,11 +36,11 @@ export default function banner({ initialProducts,serverIP }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Function to toggle modal visibility
-    const [selectedId, setSelectedId] = useState(null); 
+    const [selectedId, setSelectedId] = useState(null);
     const toggleModal = (id) => {
         setSelectedId(id); // Store the selected item's _id
         setIsModalOpen(!isModalOpen);
-      };
+    };
 
 
     // useEffect(() => {
@@ -167,16 +167,16 @@ export default function banner({ initialProducts,serverIP }) {
 
     const handleDelete = async () => {
         try {
-          // Make a delete request to your API with the selectedId
-          await axios.delete(`/api/banner?id=${selectedId}`);
-          console.log(`Banner with id ${selectedId} deleted successfully.`);
-          setIsModalOpen(false);
-          window.location.reload()
-          // Optionally refresh the data or redirect user
+            // Make a delete request to your API with the selectedId
+            await axios.delete(`/api/banner?id=${selectedId}`);
+            console.log(`Banner with id ${selectedId} deleted successfully.`);
+            setIsModalOpen(false);
+            window.location.reload()
+            // Optionally refresh the data or redirect user
         } catch (error) {
-          console.error('Error deleting banner:', error);
+            console.error('Error deleting banner:', error);
         }
-      };
+    };
 
 
     return (
@@ -195,7 +195,7 @@ export default function banner({ initialProducts,serverIP }) {
 
                 </div>
 
-                <div>Upload Banner Image <span className="font-semibold">(1920 X 400)</span></div>
+                <div>Upload Banner Image <span className="font-semibold">(1000 X 695)</span></div>
                 <div className="mb-2 flex flex-wrap gap-1">
                     <ReactSortable
                         list={images}
@@ -300,7 +300,7 @@ export default function banner({ initialProducts,serverIP }) {
                                                             <button
                                                                 className="text-red-600 hover:text-red-900 transition duration-150 ease-in-out focus:outline-none focus:ring focus:ring-red-300 rounded-md"
                                                                 title="Delete"
-                                                                onClick={() => toggleModal(module._id)} 
+                                                                onClick={() => toggleModal(module._id)}
                                                             >
                                                                 <Trash2Icon className="w-5 h-5" />
                                                             </button>
@@ -351,17 +351,29 @@ export default function banner({ initialProducts,serverIP }) {
 import CryptoJS from 'crypto-js';
 
 const SECRET_KEY = process.env.NEXTAUTH_SECRET;
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+    const { req } = context;
+
+    // Retrieve cookies from the incoming request
+    const cookies = req.headers.cookie;
     const serverIP = getServerIP();
     const url = process.env.NEXT_PUBLIC_HOSTNAME;
-    const response = await fetch(`${url}/api/banner`); // Replace with your API endpoint
-    const result = await response.json();
+    const response = await fetch(`${url}/api/banner`, {
+        headers: {
+            "Content-Type": "application/json",
+            // Pass the cookies along with the request for authentication
+            Cookie: cookies,
+        },
+    }); // Replace with your API endpoint
+    // console.log(response);
+
+    const result = await response.json(); 
 
     let initialProducts = [];
 
 
     // console.log("hellow",serverIP)
-    
+
 
     if (result.success) {
         // Decrypt the encrypted data

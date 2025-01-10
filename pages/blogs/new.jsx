@@ -13,6 +13,11 @@ export default function NewBlog() {
     const [isUploading, setIsUploading] = useState(false);
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("");
+    const [url, setUrl] = useState('');
+    const [mtitle, setmtitle] = useState('');
+    const [mdiscription, setmdiscription] = useState('');
+    const [keyword, setkeyword] = useState('');
+    const [author, setauthor] = useState('');
     const URL=process.env.NEXT_PUBLIC_UPLOAD_API;
 
 
@@ -70,6 +75,11 @@ export default function NewBlog() {
         const formData = new FormData();
         formData.append("title", title);
         formData.append("content", content);
+        formData.append("url", url);
+        formData.append("mtitle", mtitle);
+        formData.append("mdiscription", mdiscription);
+        formData.append("keyword", keyword);
+        formData.append("author", author)
         if (images) {
             images.forEach((image, index) => {
                 formData.append(`cardImage`, image); // Append each image file separately
@@ -128,6 +138,55 @@ export default function NewBlog() {
                 </div>
 
                 <form className="mt-28" onSubmit={handleSubmit}>
+                <div className="border-2 p-3 ">
+                        <h2 className="font-serif">For SEO </h2>
+                        <div>
+                            <label>URL</label>
+                            <input
+                                className='className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"'
+                                type="text"
+                                value={url}
+                                onChange={(e) => setUrl(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <label>Meta title</label>
+                            <input
+                                className='className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"'
+                                type="text"
+                                value={mtitle}
+                                onChange={(e) => setmtitle(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <label>Meta Discription</label>
+                            <input
+                                className='className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"'
+                                type="text"
+                                value={mdiscription}
+                                onChange={(e) => setmdiscription(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <label>Keyword with comma </label>
+                            <input
+                                className='className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"'
+                                type="text"
+                                value={keyword}
+                                onChange={(e) => setkeyword(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <label>Author</label>
+                            <input
+                                className='className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"'
+                                type="text"
+                                value={author}
+                                onChange={(e) => setauthor(e.target.value)}
+                            />
+                        </div>
+
+                    </div>
 
                     <label>Card / Background Image</label>
                     <div className="mb-2 flex flex-wrap gap-1">

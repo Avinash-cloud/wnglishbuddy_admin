@@ -1,16 +1,20 @@
 import {mongooseConnect} from "../../lib/mongoose";
 import Blog from "../../models/blogs";
-
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../../lib/auth";
 
 export default async function handler(req, res) {
     const { method } = req;
     const { page = 1, limit = 10, search = '' } = req.query;
     await mongooseConnect();
-  
+    const session = await getServerSession(req, res, authOptions);
+    if (!session) {
+      return res.status(401).json({ success: false, message: "Not authenticated" });
+    }
     switch (method) {
       case 'GET':
-        if(req.query?.title){
-          const blogs = await Blog.findOne({title:req.query.title})
+        if(req.query?.url){
+          const blogs = await Blog.findOne({url:req.query.url})
           res.status(200).json({ success: true, data: blogs });
         }
         try {
@@ -31,9 +35,9 @@ export default async function handler(req, res) {
         break;
       case 'PUT':
         try {
-          //console.log(req.body)
-          const {title} = req.body;
-          const blogs = await Blog.updateOne({ title },{ $set: req.body });
+          console.log(req.body)
+          const {url} = req.body;
+          const blogs = await Blog.updateOne({ url },{ $set: req.body });
           res.status(201).json({ success: true, data: blogs,message: "Data Updated successfully" });
         } catch (error) {
           //console.log(error);

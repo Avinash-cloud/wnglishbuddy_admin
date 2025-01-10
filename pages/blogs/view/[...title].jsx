@@ -12,7 +12,7 @@ export default function ViewBlog() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await fetch('/api/blogs?title=' + title);
+            const res = await fetch('/api/blogs?url=' + title);
             const result = await res.json();
             if (result.success) {
                 setBlogInfo(result.data);

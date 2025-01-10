@@ -2,13 +2,17 @@ import { mongooseConnect } from '../../lib/mongoose';
 import Admin from '../../models/admin';
 import bcryptjs from 'bcryptjs';
 import { NextResponse } from 'next/server';
-
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../../lib/auth";
 export default async function POST(request,res) {
   try {
     
     // Connect to MongoDB
     await mongooseConnect();
-
+    const session = await getServerSession(req, res, authOptions);
+    if (!session) {
+      return res.status(401).json({ success: false, message: "Not authenticated" });
+    }
     // Get request body data
     const { name, email, password } = await request.body;
 

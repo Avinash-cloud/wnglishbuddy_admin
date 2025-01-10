@@ -7,6 +7,7 @@ import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // import the styles
 import 'react-date-range/dist/theme/default.css'; // import the theme
 
+
 export default function Blog() {
     const [blogs, setBlogs] = useState([]);
     const [filteredBlogs, setFilteredBlogs] = useState([]);
@@ -83,6 +84,8 @@ export default function Blog() {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', options);
     }
+
+    console.log(displayedBlogs)
 
     return (
         <Layout>
@@ -176,19 +179,19 @@ export default function Blog() {
                                                         </div>
                                                     </td>
                                                     <td className="whitespace-nowrap px-12 py-4">
-                                                        Admin
+                                                        {blog.author?.length > 15 ? blog.author.name.slice(0,15)+ '...':blog.author}
                                                     </td>
                                                     <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-500">
                                                         <div className="text-sm text-gray-900">
-                                                            <Link href={'/blogs/view/' + blog.title}>{truncateTitle(blog.title)}</Link>
+                                                            <Link href={'/blogs/view/' + blog.url}>{truncateTitle(blog.url)}</Link>
                                                         </div>
                                                     </td>
                                                     <td className="whitespace-nowrap px-4 py-4 text-right text-sm font-medium flex justify-evenly">
-                                                        <Link href={'/blogs/edit/' + blog.title} className="text-gray-500 text-indigo-700 hover:text-indigo-300 flex justify-evenly">
+                                                        <Link href={'/blogs/edit/' + blog.url} className="text-gray-500 text-indigo-700 hover:text-indigo-300 flex justify-evenly">
                                                             <EditIcon className="mr-2" />
                                                             Edit
                                                         </Link>
-                                                        <Link href={'/blogs/delete/' + blog.title} className="text-gray-500 text-red-700 hover:text-red-300 flex">
+                                                        <Link href={'/blogs/delete/' + blog.url} className="text-gray-500 text-red-700 hover:text-red-300 flex">
                                                             <MdDelete size={20} className="mr-2" />
                                                             Delete
                                                         </Link>

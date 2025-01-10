@@ -1,12 +1,17 @@
 import {mongooseConnect} from "../../lib/mongoose";
 import Store from "../../models/store";
-
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../../lib/auth";
 import CryptoJS from 'crypto-js';
 const SECRET_KEY = process.env.NEXTAUTH_SECRET ; 
 export default async function handler(req, res) {
     const { method } = req;
     const { page = 1, limit = 10, search = '' } = req.query;
     await mongooseConnect();
+    const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    return res.status(401).json({ success: false, message: "Not authenticated" });
+  }
    
     switch (method) {
       case 'GET':
