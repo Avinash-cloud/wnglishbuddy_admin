@@ -58,7 +58,7 @@ export default function students() {
             search: searchTerm
           }
         });
-        setstudents(response.data.students); // Assuming the data contains a 'students' array
+        setstudents(response.data.data); // Assuming the data contains a 'students' array
         setTotalItems(response.data.totalItems); // Assuming the API sends total items
         setLoading(false);
       } catch (error) {
@@ -113,14 +113,14 @@ export default function students() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
               <a href="/students/new">
-              <button
-                type="button"
-                className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black w-[10rem]"
-              >
-                
-                Add new students
-                
-              </button>
+                <button
+                  type="button"
+                  className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black w-[10rem]"
+                >
+
+                  Add new students
+
+                </button>
               </a>
             </div>
           </div>
@@ -157,37 +157,53 @@ export default function students() {
                           </td>
                         </tr>
                       ) : (
-                        students.map((students,index) => (
+                        students.map((students, index) => (
                           <tr key={index}>
                             <td className="whitespace-nowrap px-4 py-4">
                               <div className="flex items-center">
                                 <div className="h-10 w-10 flex-shrink-0">
-                                  <img
-                                    className="h-10 w-10 rounded-full object-cover"
-                                    src={students.image}
-                                    alt=""
-                                  />
+                                  {students.image ? (
+                                    <img
+                                      className="h-10 w-10 rounded-full object-cover"
+                                      src={students.image}
+                                      alt={students.name || "Student"}
+                                    />
+                                  ) : (
+                                    <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-700 font-bold">
+                                      {students.name
+                                        ? students.name
+                                          .split(" ") // Split the name into words
+                                          .map((word) => word[0]) // Take the first letter of each word
+                                          .join("") // Join the initials
+                                          .toUpperCase() // Convert to uppercase
+                                        : "?"}
+                                    </div>
+                                  )}
                                 </div>
                                 <div className="ml-4">
                                   <div className="text-sm font-medium text-gray-900">{students.name}</div>
-                                  
+
                                 </div>
                               </div>
                             </td>
                             <td className="whitespace-nowrap px-12 py-4">
-                              <div className="text-sm text-gray-900">{students.teacher}</div>
+                              <div className="text-sm text-gray-900">{students.email}</div>
                               {/* <div className="text-sm text-gray-700">{students.department}</div> */}
                             </td>
                             <td className="whitespace-nowrap px-4 py-4">
                               <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                                ₹ {students.price}
+                                {students.phoneNumber}
                               </span>
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-700">
-                              {students.students_no}
+                              {students.courseName.map((course) => (
+                                <span className="inline-flex rounded-full bg-yellow-100 px-2 text-xs font-semibold leading-5 text-yellow-800">
+                                  {course}
+                                </span>
+                              ))}
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 text-right text-sm font-medium">
-                              <a href="/students/details" className="text-gray-700">
+                              <a href={`/students/details/${students._id}`} className="text-gray-700">
                                 <ViewIcon />
                               </a>
                             </td>
@@ -227,8 +243,8 @@ export default function students() {
             )}
             <button
               className={`mx-1 text-sm font-semibold text-gray-900 ${currentPage === Math.ceil(totalItems / rowsPerPage)
-                  ? 'cursor-not-allowed'
-                  : ''
+                ? 'cursor-not-allowed'
+                : ''
                 }`}
               onClick={handleNextPage}
               disabled={currentPage === Math.ceil(totalItems / rowsPerPage)}
