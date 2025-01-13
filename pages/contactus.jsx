@@ -111,10 +111,17 @@ export default function contactus({initialProducts}) {
 import CryptoJS from 'crypto-js';
 
 const SECRET_KEY = process.env.NEXTAUTH_SECRET;
-export async function getServerSideProps() {
-    
+export async function getServerSideProps(context) {
+    const { req } = context;
+    const cookies = req.headers.cookie;
     const url = process.env.NEXT_PUBLIC_HOSTNAME;
-    const response = await fetch(`${url}/api/contactus`); // Replace with your API endpoint
+    const response = await fetch(`${url}/api/contactus`,{
+        headers: {
+            "Content-Type": "application/json",
+            // Pass the cookies along with the request for authentication
+            Cookie: cookies,
+        },
+    }); // Replace with your API endpoint
     const result = await response.json();
 
     let initialProducts = [];

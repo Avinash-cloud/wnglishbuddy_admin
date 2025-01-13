@@ -12,9 +12,15 @@ export default async function handler(req, res) {
     await mongooseConnect();
 
     const { method } = req;
-    const { id } = req.query;
+    const { id } = req.query;    
 
     if (method === "GET") {
+
+        if(id){
+            const tutor = await Tutor.findById(id);
+            if (!tutor) return res.status(404).json({ success: false, message: "Tutor not found" });
+            res.status(200).json({ success: true, data: tutor });
+        }
         try {
             const { page = 1, limit = 10, search = "" } = req.query; // Destructure query parameters with defaults
             const query = search
