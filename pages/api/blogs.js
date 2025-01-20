@@ -47,8 +47,8 @@ export default async function handler(req, res) {
         break;
         
       case 'DELETE':
-        if (req.query?.title) {
-          await Blog.deleteOne({title:req.query?.title});
+        if (req.query?.url) {
+          await Blog.deleteOne({url:req.query?.url});
           res.json(true);
         }
         break;

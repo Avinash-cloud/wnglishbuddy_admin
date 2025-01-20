@@ -1,14 +1,22 @@
 import dynamic from 'next/dynamic';
 import Layout from "../../components/Layout";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import Spinner from "../../components/Spinner";
 import { ReactSortable } from "react-sortablejs";
 import axios from "axios";
 import "react-quill/dist/quill.snow.css";
 
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-export default function NewBlog() {
+
+// import { JoditEditor } from "jodit-react";
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
+
+export default function NewBlog({ placeholder }) {
+
+    const [data, setData] = useState("");
+
     const [images, setImages] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
     const [title, setTitle] = useState("")
@@ -18,11 +26,11 @@ export default function NewBlog() {
     const [mdiscription, setmdiscription] = useState('');
     const [keyword, setkeyword] = useState('');
     const [author, setauthor] = useState('');
-    const URL=process.env.NEXT_PUBLIC_UPLOAD_API;
+    const URL = process.env.NEXT_PUBLIC_UPLOAD_API;
 
 
 
-    
+
     function updateImagesOrder(images) {
         setImages(images);
     }
@@ -138,7 +146,7 @@ export default function NewBlog() {
                 </div>
 
                 <form className="mt-28" onSubmit={handleSubmit}>
-                <div className="border-2 p-3 ">
+                    <div className="border-2 p-3 ">
                         <h2 className="font-serif">For SEO </h2>
                         <div>
                             <label>URL</label>
@@ -242,7 +250,7 @@ export default function NewBlog() {
                     </div>
                     <div className="mt-4">
                         <label>Content:</label>
-                        <ReactQuill
+                        {/* <ReactQuill
                             value={content}
                             onChange={setContent}
                             modules={quillModules}
@@ -250,7 +258,17 @@ export default function NewBlog() {
                             placeholder="Write your blog content here..."
                             className="border border-gray-200 p-4 rounded-md shadow-sm"
 
-                        />
+                        /> */}
+
+                        <div className="p-4">
+                            <h2 className="text-lg font-bold mb-4">Rich Text Editor</h2>
+                            <JoditEditor
+                                value={content}
+                                config={editorConfig}
+                                onChange={(value) => setContent(value)}
+                            />
+                           
+                        </div>
                     </div>
 
                     <button className='bg-blue-600 text-white h-9 w-14 rounded mt-6' type="submit">Save</button>
@@ -262,3 +280,146 @@ export default function NewBlog() {
         </Layout>
     )
 }
+
+
+
+const copyStringToClipboard = (str) => {
+    const el = document.createElement("textarea");
+    el.value = str;
+    el.setAttribute("readonly", "");
+    el.style.position = "absolute";
+    el.style.left = "-9999px";
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+};
+
+const facilityMergeFields = [
+    "FacilityNumber",
+    "FacilityName",
+    "Address",
+    "MapCategory",
+    "Latitude",
+    "Longitude",
+    "ReceivingPlant",
+    "TrunkLine",
+    "SiteElevation"
+];
+const inspectionMergeFields = [
+    "InspectionCompleteDate",
+    "InspectionEventType"
+];
+
+const createOptionGroupElement = (mergeFields, optionGroupLabel) => {
+    const optionGroupElement = document.createElement("optgroup");
+    optionGroupElement.setAttribute("label", optionGroupLabel);
+    mergeFields.forEach((field) => {
+        const optionElement = document.createElement("option");
+        optionElement.setAttribute("class", "merge-field-select-option");
+        optionElement.setAttribute("value", field);
+        optionElement.text = field;
+        optionGroupElement.appendChild(optionElement);
+    });
+    return optionGroupElement;
+};
+
+const buttons = [
+    "undo",
+    "redo",
+    "|",
+    "bold",
+    "strikethrough",
+    "underline",
+    "italic",
+    "|",
+    "superscript",
+    "subscript",
+    "|",
+    "align",
+    "|",
+    "ul",
+    "ol",
+    "outdent",
+    "indent",
+    "|",
+    "font",
+    "fontsize",
+    "brush",
+    "paragraph",
+    "|",
+    "image",
+    "link",
+    "table",
+    "|",
+    "hr",
+    "eraser",
+    "copyformat",
+    "|",
+    "fullsize",
+    "selectall",
+    "print",
+    "|",
+    "source",
+    "|",
+    {
+        name: "insertMergeField",
+        tooltip: "Insert Merge Field",
+        iconURL: "/images/merge.png", // Update for public folder
+        popup: (editor) => {
+            const onSelected = (e) => {
+                const mergeField = e.target.value;
+                if (mergeField) {
+                    editor.selection.insertNode(
+                        editor.create.inside.fromHTML(`{{${mergeField}}}`)
+                    );
+                }
+            };
+
+            const divElement = editor.create.div("merge-field-popup");
+
+            const labelElement = document.createElement("label");
+            labelElement.setAttribute("class", "merge-field-label");
+            labelElement.textContent = "Merge field: ";
+            divElement.appendChild(labelElement);
+
+            const selectElement = document.createElement("select");
+            selectElement.setAttribute("class", "merge-field-select");
+            selectElement.appendChild(createOptionGroupElement(facilityMergeFields, "Facility"));
+            selectElement.appendChild(createOptionGroupElement(inspectionMergeFields, "Inspection"));
+            selectElement.onchange = onSelected;
+            divElement.appendChild(selectElement);
+
+            return divElement;
+        }
+    },
+    {
+        name: "copyContent",
+        tooltip: "Copy HTML to Clipboard",
+        iconURL: "/images/copy.png", // Update for public folder
+        exec: (editor) => {
+            const html = editor.value;
+            copyStringToClipboard(html);
+        }
+    }
+];
+
+const editorConfig = {
+    readonly: false,
+    toolbar: true,
+    spellcheck: true,
+    language: "en",
+    toolbarButtonSize: "medium",
+    toolbarAdaptive: false,
+    showCharsCounter: true,
+    showWordsCounter: true,
+    showXPathInStatusbar: false,
+    askBeforePasteHTML: true,
+    askBeforePasteFromWord: true,
+    buttons: buttons,
+    uploader: {
+        insertImageAsBase64URI: true
+    },
+    width: 800,
+    height: 842
+};

@@ -11,15 +11,15 @@ export default function DeleteProductPage() {
     if (!title) {
       return;
     }
-    axios.get('/api/blogs?title='+title).then(response => {
-      setProductInfo(response.data);
+    axios.get('/api/blogs?url='+title).then(response => {
+      setProductInfo(response.data.data);
     });
   }, [title]);
   function goBack() {
     router.push('/blogs');
   }
   async function deleteProduct() {
-    await axios.delete('/api/blogs?title='+title);
+    await axios.delete('/api/blogs?url='+title);
     goBack();
   }
   return (

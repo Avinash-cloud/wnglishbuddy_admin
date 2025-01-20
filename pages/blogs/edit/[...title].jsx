@@ -7,7 +7,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Image from "next/image";
 import "react-quill/dist/quill.snow.css";
 import dynamic from 'next/dynamic';
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 import Spinner from "../../../components/Spinner";
 import { ReactSortable } from "react-sortablejs";
 import { ToastContainer, toast } from 'react-toastify';
@@ -298,13 +298,11 @@ export default function EditBlog() {
                     </div>
                     <div>
                         <label>Content:</label>
-                        <ReactQuill
-                            className='h-96'
-                            value={content}
-                            onChange={setContent}
-                            modules={quillModules}
-                            formats={quillFormats}
-                        />
+                        <JoditEditor
+                                value={content}
+                                config={editorConfig}
+                                onChange={(value) => setContent(value)}
+                            />
                         <button type="submit" className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 mt-14 ml-96" >Save</button>
                     </div>
                 </form>
@@ -312,3 +310,146 @@ export default function EditBlog() {
         </Layout>
     );
 }
+
+
+
+const copyStringToClipboard = (str) => {
+    const el = document.createElement("textarea");
+    el.value = str;
+    el.setAttribute("readonly", "");
+    el.style.position = "absolute";
+    el.style.left = "-9999px";
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+};
+
+const facilityMergeFields = [
+    "FacilityNumber",
+    "FacilityName",
+    "Address",
+    "MapCategory",
+    "Latitude",
+    "Longitude",
+    "ReceivingPlant",
+    "TrunkLine",
+    "SiteElevation"
+];
+const inspectionMergeFields = [
+    "InspectionCompleteDate",
+    "InspectionEventType"
+];
+
+const createOptionGroupElement = (mergeFields, optionGroupLabel) => {
+    const optionGroupElement = document.createElement("optgroup");
+    optionGroupElement.setAttribute("label", optionGroupLabel);
+    mergeFields.forEach((field) => {
+        const optionElement = document.createElement("option");
+        optionElement.setAttribute("class", "merge-field-select-option");
+        optionElement.setAttribute("value", field);
+        optionElement.text = field;
+        optionGroupElement.appendChild(optionElement);
+    });
+    return optionGroupElement;
+};
+
+const buttons = [
+    "undo",
+    "redo",
+    "|",
+    "bold",
+    "strikethrough",
+    "underline",
+    "italic",
+    "|",
+    "superscript",
+    "subscript",
+    "|",
+    "align",
+    "|",
+    "ul",
+    "ol",
+    "outdent",
+    "indent",
+    "|",
+    "font",
+    "fontsize",
+    "brush",
+    "paragraph",
+    "|",
+    "image",
+    "link",
+    "table",
+    "|",
+    "hr",
+    "eraser",
+    "copyformat",
+    "|",
+    "fullsize",
+    "selectall",
+    "print",
+    "|",
+    "source",
+    "|",
+    {
+        name: "insertMergeField",
+        tooltip: "Insert Merge Field",
+        iconURL: "/images/merge.png", // Update for public folder
+        popup: (editor) => {
+            const onSelected = (e) => {
+                const mergeField = e.target.value;
+                if (mergeField) {
+                    editor.selection.insertNode(
+                        editor.create.inside.fromHTML(`{{${mergeField}}}`)
+                    );
+                }
+            };
+
+            const divElement = editor.create.div("merge-field-popup");
+
+            const labelElement = document.createElement("label");
+            labelElement.setAttribute("class", "merge-field-label");
+            labelElement.textContent = "Merge field: ";
+            divElement.appendChild(labelElement);
+
+            const selectElement = document.createElement("select");
+            selectElement.setAttribute("class", "merge-field-select");
+            selectElement.appendChild(createOptionGroupElement(facilityMergeFields, "Facility"));
+            selectElement.appendChild(createOptionGroupElement(inspectionMergeFields, "Inspection"));
+            selectElement.onchange = onSelected;
+            divElement.appendChild(selectElement);
+
+            return divElement;
+        }
+    },
+    {
+        name: "copyContent",
+        tooltip: "Copy HTML to Clipboard",
+        iconURL: "/images/copy.png", // Update for public folder
+        exec: (editor) => {
+            const html = editor.value;
+            copyStringToClipboard(html);
+        }
+    }
+];
+
+const editorConfig = {
+    readonly: false,
+    toolbar: true,
+    spellcheck: true,
+    language: "en",
+    toolbarButtonSize: "medium",
+    toolbarAdaptive: false,
+    showCharsCounter: true,
+    showWordsCounter: true,
+    showXPathInStatusbar: false,
+    askBeforePasteHTML: true,
+    askBeforePasteFromWord: true,
+    buttons: buttons,
+    uploader: {
+        insertImageAsBase64URI: true
+    },
+    width: 800,
+    height: 842
+};
