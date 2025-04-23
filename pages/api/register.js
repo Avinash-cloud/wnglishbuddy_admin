@@ -4,7 +4,7 @@ import bcryptjs from 'bcryptjs';
 import { NextResponse } from 'next/server';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../lib/auth";
-export default async function POST(request,res) {
+export default async function POST(req,res) {
   try {
     
     // Connect to MongoDB
@@ -14,7 +14,7 @@ export default async function POST(request,res) {
       return res.status(401).json({ success: false, message: "Not authenticated" });
     }
     // Get request body data
-    const { name, email, password } = await request.body;
+    const { name, email, password } = await req.body;
 
     
 
