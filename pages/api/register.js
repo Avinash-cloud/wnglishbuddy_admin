@@ -18,10 +18,10 @@ export default async function handler(req,res) {
     
     // Connect to MongoDB
     await mongooseConnect();
-    const session = await getServerSession(req, res, authOptions);
-    if (!session) {
-      return res.status(401).json({ success: false, message: "Not authenticated" });
-    }
+    // const session = await getServerSession(req, res, authOptions);
+    // if (!session) {
+    //   return res.status(401).json({ success: false, message: "Not authenticated" });
+    // }
     // Get request body data
     const { name, email, password } = await req.body;
 
