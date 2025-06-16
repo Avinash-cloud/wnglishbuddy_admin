@@ -4,15 +4,24 @@ import bcryptjs from 'bcryptjs';
 import { NextResponse } from 'next/server';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../lib/auth";
-export default async function POST(req,res) {
+
+
+
+export default async function handler(req,res) {
+
+  const method = req.method;
+
+  if (method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
   try {
     
     // Connect to MongoDB
     await mongooseConnect();
-    const session = await getServerSession(req, res, authOptions);
-    if (!session) {
-      return res.status(401).json({ success: false, message: "Not authenticated" });
-    }
+    // const session = await getServerSession(req, res, authOptions);
+    // if (!session) {
+    //   return res.status(401).json({ success: false, message: "Not authenticated" });
+    // }
     // Get request body data
     const { name, email, password } = await req.body;
 

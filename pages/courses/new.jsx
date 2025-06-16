@@ -41,7 +41,7 @@ export default function Courses() {
                 data.append("file", file);
             }
             //console.log("url are", URL);
-            const res = await axios.post(`${URL}:5000/api/upload`, data);
+            const res = await axios.post(`${URL}/api/upload`, data);
             setImages((oldImages) => {
                 return [...oldImages, res.data.fileUrl];
             });
