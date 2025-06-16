@@ -146,7 +146,7 @@ export default function EditBlog() {
         const blogData = {
             title: blogTitle,
             content,
-            cardImage:images,
+            cardImage: images,
             url,
             mtitle,
             mdiscription,
@@ -174,6 +174,10 @@ export default function EditBlog() {
                 });
         }
     };
+
+    function removeImage() {
+        setImages(null);
+    }
 
     return (
         <Layout>
@@ -253,12 +257,21 @@ export default function EditBlog() {
                             {!!images?.length &&
                                 // images.map((link) => (
                                 <div
-
-                                    className="h-24 bg-white p-4 shadow-sm rounded-sm border border-gray-200"
+                                    className="relative h-24 w-24 bg-white p-1 shadow-sm rounded-sm border border-gray-200"
                                 >
-                                    <img src={images} alt="" className="rounded-lg" height={100} width={100} />
-
+                                    <div
+                                        onClick={removeImage}
+                                        className="absolute top-0 right-0 bg-white text-red-600 rounded-full px-1 py-0.5 text-xs shadow hover:bg-red-100 cursor-pointer"
+                                    >
+                                        ✕
+                                    </div>
+                                    <img
+                                        src={images}
+                                        alt=""
+                                        className="rounded-lg object-cover w-full h-full"
+                                    />
                                 </div>
+
                                 // ))
                             }
                         </ReactSortable>
@@ -299,10 +312,10 @@ export default function EditBlog() {
                     <div>
                         <label>Content:</label>
                         <JoditEditor
-                                value={content}
-                                config={editorConfig}
-                                onChange={(value) => setContent(value)}
-                            />
+                            value={content}
+                            config={editorConfig}
+                            onChange={(value) => setContent(value)}
+                        />
                         <button type="submit" className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 mt-14 ml-96" >Save</button>
                     </div>
                 </form>
@@ -450,6 +463,6 @@ const editorConfig = {
     uploader: {
         insertImageAsBase64URI: true
     },
-    width: 800,
+    // width: 800,
     height: 842
 };

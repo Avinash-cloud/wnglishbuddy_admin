@@ -137,6 +137,11 @@ export default function NewBlog({ placeholder }) {
         'clean'
     ];
 
+    function removeImage(linkToRemove) {
+        const filtered = images.filter(link => link !== linkToRemove);
+        updateImagesOrder(filtered);
+    }
+
 
     return (
         <Layout>
@@ -207,18 +212,29 @@ export default function NewBlog({ placeholder }) {
                                 images.map((link) => (
                                     <div
                                         key={link}
-                                        className="h-24 bg-white p-4 shadow-sm rounded-sm border border-gray-200"
+                                        className="relative h-24 w-24 bg-white p-1 shadow-sm rounded-sm border border-gray-200"
                                     >
-                                        <img src={link} alt="" className="rounded-lg" height={100} width={100} />
-
+                                        <button
+                                            onClick={() => removeImage(link)}
+                                            className="absolute top-0 right-0 text-red-600 bg-white rounded-full px-1 py-0.5 text-xs shadow hover:bg-red-100"
+                                        >
+                                            ✕
+                                        </button>
+                                        <img
+                                            src={link}
+                                            alt=""
+                                            className="rounded-sm object-cover w-full h-full"
+                                        />
                                     </div>
                                 ))}
                         </ReactSortable>
+
                         {isUploading && (
                             <div className="h-24 flex items-center">
                                 <Spinner />
                             </div>
                         )}
+
                         <label className="w-24 h-24 cursor-pointer text-center flex flex-col items-center justify-center text-sm gap-1 text-primary rounded-sm bg-white shadow-sm border border-primary">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -238,6 +254,7 @@ export default function NewBlog({ placeholder }) {
                             <input type="file" onChange={uploadImages} className="hidden" />
                         </label>
                     </div>
+
 
                     <div className="mt-4">
 
@@ -267,7 +284,7 @@ export default function NewBlog({ placeholder }) {
                                 config={editorConfig}
                                 onChange={(value) => setContent(value)}
                             />
-                           
+
                         </div>
                     </div>
 
@@ -420,6 +437,6 @@ const editorConfig = {
     uploader: {
         insertImageAsBase64URI: true
     },
-    width: 800,
+    // width: 800,
     height: 842
 };

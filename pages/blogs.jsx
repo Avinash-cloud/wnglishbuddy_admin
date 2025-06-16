@@ -179,7 +179,7 @@ export default function Blog() {
                                                         </div>
                                                     </td>
                                                     <td className="whitespace-nowrap px-12 py-4">
-                                                        {blog.author?.length > 15 ? blog.author.name.slice(0,15)+ '...':blog.author}
+                                                        {blog.author?.length > 15 ? blog.author.slice(0,15)+ '...':blog.author}
                                                     </td>
                                                     <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-500">
                                                         <div className="text-sm text-gray-900">

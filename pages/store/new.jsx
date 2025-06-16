@@ -205,6 +205,11 @@ export default function Page() {
         setImages(images);
     }
 
+       function removeImage(linkToRemove) {
+        const filtered = images.filter(link => link !== linkToRemove);
+        updateImagesOrder(filtered);
+    }
+
 
 
     return (
@@ -245,8 +250,14 @@ export default function Page() {
                                     images.map((link) => (
                                         <div
                                             key={link}
-                                            className="h-24 bg-white p-4 shadow-sm rounded-sm border border-gray-200"
+                                            className=" relative h-24 bg-white p-4 shadow-sm rounded-sm border border-gray-200"
                                         >
+                                            <button
+                                            onClick={() => removeImage(link)}
+                                            className="absolute top-0 right-0 text-red-600 bg-white rounded-full px-1 py-0.5 text-xs shadow hover:bg-red-100"
+                                        >
+                                            ✕
+                                        </button>
                                             <img src={link} alt="" className="rounded-lg" height={100} width={100} />
 
                                         </div>
