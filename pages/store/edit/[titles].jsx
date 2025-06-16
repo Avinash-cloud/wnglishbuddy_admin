@@ -45,6 +45,7 @@ export default function Page() {
     const [metaTitle, setMetaTitle] = useState('');
     const [metaDescription, setMetaDescription] = useState('');
     const [metaKeywords, setMetaKeywords] = useState('');
+    const [error, setError] = useState(null);
 
     const [images, setImages] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
@@ -238,6 +239,8 @@ export default function Page() {
 
     async function uploadImages(ev) {
         const files = ev.target?.files;
+        setError(null);
+        try {
         if (files?.length > 0) {
             setIsUploading(true);
             const data = new FormData();
@@ -250,6 +253,12 @@ export default function Page() {
                 return [...oldImages, res.data.fileUrl];
             });
             setIsUploading(false);
+        }
+    }
+        catch (error) {
+            console.error("Error uploading images:", error);
+            setIsUploading(false);
+            setError("Failed to upload images. Please try again with different formats (jpg, jpeg, png).");
         }
     }
     function updateImagesOrder(images) {
@@ -317,6 +326,11 @@ export default function Page() {
                                     <Spinner />
                                 </div>
                             )}
+                            {error && (
+                                <div className="text-red-600 text-sm mt-2"> 
+                                    {error}
+                                </div>
+                            )} 
                             <label className="w-24 h-24 cursor-pointer text-center flex flex-col items-center justify-center text-sm gap-1 text-primary rounded-sm bg-white shadow-sm border border-primary">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"

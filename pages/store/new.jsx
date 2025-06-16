@@ -41,6 +41,7 @@ export default function Page() {
     const [metaTitle, setMetaTitle] = useState('');
     const [metaDescription, setMetaDescription] = useState('');
     const [metaKeywords, setMetaKeywords] = useState('');
+    const [error, setError] = useState(null);
 
     const [images, setImages] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
@@ -91,7 +92,7 @@ export default function Page() {
             transition: Bounce,
             ...options, // Merge any additional options
         };
-    
+
         switch (type) {
             case 'success':
                 toast.success(message, toastOptions);
@@ -187,25 +188,34 @@ export default function Page() {
 
     async function uploadImages(ev) {
         const files = ev.target?.files;
-        if (files?.length > 0) {
-            setIsUploading(true);
-            const data = new FormData();
-            for (const file of files) {
-                data.append("file", file);
+        setError(null);
+        try {
+            if (files?.length > 0) {
+                setIsUploading(true);
+                const data = new FormData();
+                for (const file of files) {
+                    data.append("file", file);
+                }
+                //console.log("url are", URL);
+                const res = await axios.post(`${URL}/api/upload`, data);
+                setImages((oldImages) => {
+                    return [...oldImages, res.data.fileUrl];
+                });
+                setIsUploading(false);
             }
-            //console.log("url are", URL);
-            const res = await axios.post(`${URL}/api/upload`, data);
-            setImages((oldImages) => {
-                return [...oldImages, res.data.fileUrl];
-            });
+        }
+        catch (error) {
             setIsUploading(false);
+            setError("Failed to upload images. Please try again with different formats (jpg, jpeg, png).");
+
         }
     }
+
     function updateImagesOrder(images) {
         setImages(images);
     }
 
-       function removeImage(linkToRemove) {
+    function removeImage(linkToRemove) {
         const filtered = images.filter(link => link !== linkToRemove);
         updateImagesOrder(filtered);
     }
@@ -225,7 +235,7 @@ export default function Page() {
                 draggable
                 pauseOnHover
                 theme="colored"
-                
+
             />
             <div>
                 <h1 className="font-serif">Add New Book</h1>
@@ -253,11 +263,11 @@ export default function Page() {
                                             className=" relative h-24 bg-white p-4 shadow-sm rounded-sm border border-gray-200"
                                         >
                                             <button
-                                            onClick={() => removeImage(link)}
-                                            className="absolute top-0 right-0 text-red-600 bg-white rounded-full px-1 py-0.5 text-xs shadow hover:bg-red-100"
-                                        >
-                                            ✕
-                                        </button>
+                                                onClick={() => removeImage(link)}
+                                                className="absolute top-0 right-0 text-red-600 bg-white rounded-full px-1 py-0.5 text-xs shadow hover:bg-red-100"
+                                            >
+                                                ✕
+                                            </button>
                                             <img src={link} alt="" className="rounded-lg" height={100} width={100} />
 
                                         </div>
@@ -268,6 +278,11 @@ export default function Page() {
                                     <Spinner />
                                 </div>
                             )}
+                            {error && (
+                                <div className="text-red-600 text-sm mt-2"> 
+                                    {error}
+                                </div>
+                            )}  
                             <label className="w-24 h-24 cursor-pointer text-center flex flex-col items-center justify-center text-sm gap-1 text-primary rounded-sm bg-white shadow-sm border border-primary">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"

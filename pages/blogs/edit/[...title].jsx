@@ -61,6 +61,9 @@ export default function EditBlog() {
     const [keyword, setkeyword] = useState('');
     const [author, setauthor] = useState('');
     const [isUploading, setIsUploading] = useState(false);
+    const [error, setError] = useState(null);
+
+
     const URL = process.env.NEXT_PUBLIC_UPLOAD_API;
     // const navigate = useNavigate();
     const router = useRouter();
@@ -94,16 +97,24 @@ export default function EditBlog() {
 
     async function uploadImages(ev) {
         const files = ev.target?.files;
-        if (files?.length > 0) {
-            setIsUploading(true);
-            const data = new FormData();
-            for (const file of files) {
-                data.append("file", file);
+        setError(null); // Reset error state before upload
+        try {
+            if (files?.length > 0) {
+                setIsUploading(true);
+                const data = new FormData();
+                for (const file of files) {
+                    data.append("file", file);
+                }
+                //console.log("url are", URL);
+                const res = await axios.post(`${URL}/api/upload`, data);
+                // console.log(res);
+                setImages(res.data.fileUrl)
+                setIsUploading(false);
             }
-            //console.log("url are", URL);
-            const res = await axios.post(`${URL}/api/upload`, data);
-            // console.log(res);
-            setImages(res.data.fileUrl)
+        }
+        catch (error) {
+            console.error("Error uploading images:", error);
+            setError("Failed to upload images. Please try again with different formats (jpg, jpeg, png).");
             setIsUploading(false);
         }
     }
@@ -278,6 +289,11 @@ export default function EditBlog() {
                         {isUploading && (
                             <div className="h-24 flex items-center">
                                 <Spinner />
+                            </div>
+                        )}
+                        {error && (
+                            <div className="text-red-500 text-sm">
+                                {error}
                             </div>
                         )}
                         <label className="w-24 h-24 cursor-pointer text-center flex flex-col items-center justify-center text-sm gap-1 text-primary rounded-sm bg-white shadow-sm border border-primary">

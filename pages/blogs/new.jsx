@@ -26,6 +26,8 @@ export default function NewBlog({ placeholder }) {
     const [mdiscription, setmdiscription] = useState('');
     const [keyword, setkeyword] = useState('');
     const [author, setauthor] = useState('');
+    const[error, setError] = useState(null);
+    
     const URL = process.env.NEXT_PUBLIC_UPLOAD_API;
 
 
@@ -38,18 +40,28 @@ export default function NewBlog({ placeholder }) {
 
     async function uploadImages(ev) {
         const files = ev.target?.files;
-        if (files?.length > 0) {
-            setIsUploading(true);
-            const data = new FormData();
-            for (const file of files) {
-                data.append("file", file);
+        setError(null); // Reset error state before uploading
+        try {
+
+
+            if (files?.length > 0) {
+                setIsUploading(true);
+                const data = new FormData();
+                for (const file of files) {
+                    data.append("file", file);
+                }
+                //console.log("url are", URL);
+                const res = await axios.post(`${URL}/api/upload`, data);
+                setImages((oldImages) => {
+                    return [...oldImages, res.data.fileUrl];
+                });
+                setIsUploading(false);
             }
-            //console.log("url are", URL);
-            const res = await axios.post(`${URL}/api/upload`, data);
-            setImages((oldImages) => {
-                return [...oldImages, res.data.fileUrl];
-            });
+        }
+        catch (error) {
+            console.error("Error uploading images:", error);
             setIsUploading(false);
+            setError("Failed to upload images please use a different format jpg jpeg png . Please try again.");
         }
     }
 
@@ -232,6 +244,12 @@ export default function NewBlog({ placeholder }) {
                         {isUploading && (
                             <div className="h-24 flex items-center">
                                 <Spinner />
+                            </div>
+                        )}
+
+                        {error && (
+                            <div className="text-red-500 text-sm mt-2">
+                                {error}
                             </div>
                         )}
 
