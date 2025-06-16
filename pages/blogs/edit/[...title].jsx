@@ -101,7 +101,7 @@ export default function EditBlog() {
                 data.append("file", file);
             }
             //console.log("url are", URL);
-            const res = await axios.post(`${URL}:5000/api/upload`, data);
+            const res = await axios.post(`${URL}/api/upload`, data);
             // console.log(res);
             setImages(res.data.fileUrl)
             setIsUploading(false);
